@@ -1,0 +1,194 @@
+[gd_scene load_steps=10 format=3 uid="uid://dpeipq23607kx"]
+
+[ext_resource type="Script" path="res://jogador.gd" id="1_jrre2"]
+[ext_resource type="Texture2D" uid="uid://ck6hcb438mmnd" path="res://gun_sprite128x128.png" id="1_oyoh6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjoav"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wwdn"]
+atlas = ExtResource("1_oyoh6")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkqi5"]
+atlas = ExtResource("1_oyoh6")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yjtk4"]
+atlas = ExtResource("1_oyoh6")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7yi8"]
+atlas = ExtResource("1_oyoh6")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y45b8"]
+atlas = ExtResource("1_oyoh6")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1gmjv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wwdn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkqi5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yjtk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7yi8")
+}],
+"loop": false,
+"name": &"atirando",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y45b8")
+}],
+"loop": true,
+"name": &"parado",
+"speed": 5.0
+}]
+
+[node name="Jogador" type="CharacterBody3D" groups=["jogador"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0203509, 0)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_jrre2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.904443, 0)
+shape = SubResource("CapsuleShape3D_jjoav")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+target_position = Vector3(0, 0, -1000)
+collision_mask = 3
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GunBase" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 361.0
+offset_top = -55.0
+offset_right = 505.0
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/GunBase" groups=["jogador"]]
+position = Vector2(-20, -18)
+scale = Vector2(2.20898, 2.20898)
+sprite_frames = SubResource("SpriteFrames_1gmjv")
+animation = &"parado"
+
+[node name="mira" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.647395, 0.647395, 0.647395, 1)
+
+[node name="telaDeMorte" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/telaDeMorte"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -101.0
+offset_right = 101.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/telaDeMorte/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -69.0
+offset_right = 71.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Morreu
+"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/telaDeMorte/Panel"]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 55.0
+offset_right = 147.0
+offset_bottom = 108.0
+text = "Recomeça
+"
+
+[node name="cartucho" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="cartucho"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 7.0
+offset_top = -120.0
+offset_right = 150.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="cartucho/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.5
+offset_top = -10.5
+offset_right = 61.5
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "0/0"
+horizontal_alignment = 1
